@@ -1,7 +1,10 @@
 const express = require('express') // Módulo express
 const mysql = require('mysql')
 const myconn = require('express-myconnection')
-const routes = require('./routes')
+const cors = require('cors')
+
+const routes = require('./routes') // Archivo local: routes.js
+
 require('dotenv').config()
 
 const app = express()
@@ -17,6 +20,7 @@ const dbOptions = {
 // Middlewares (ni idea de qué es esto)
 app.use(myconn(mysql, dbOptions, 'single'))
 app.use(express.json())
+app.use(cors())
 
 // Rutas ***********************************************************************
 app.get('/', (req, res)=> {
