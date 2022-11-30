@@ -10,3 +10,14 @@ CREATE TABLE punto_venta.productos(
     cantidad INT NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE punto_venta.clientes(
+    idCliente INT NOT NULL AUTO_INCREMENT,
+    nombre varchar(250) NOT NULL,           -- Principal
+    apellidoPat varchar(250) NOT NULL,
+    apellidoMat varchar(250) NOT NULL,
+    telefono varchar(10) NOT NULL,
+    correo varchar(250) NOT NULL,            -- Principal
+    psw varchar(250) NOT NULL,               -- Principal
+    PRIMARY KEY (idCliente)
+)

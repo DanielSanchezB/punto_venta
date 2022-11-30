@@ -1,9 +1,13 @@
 const express = require('express') // Módulo express
+const { engine } = require('express-handlebars')
 const mysql = require('mysql')
 const myconn = require('express-myconnection')
 const cors = require('cors')
+const session = require('express-session')
+const bodyParser = require('body-parser')
+const routes = require('../routes') // Archivo local: routes.js
 
-const routes = require('./routes') // Archivo local: routes.js
+const loginRutas = require('./routes/login');
 
 require('dotenv').config()
 
@@ -17,15 +21,26 @@ const dbOptions = {
     database: 'punto_venta'
 }
 
+// Vistas
+app.set('views', __dirname + '/vistas');
+app.engine('.hbs', engine({
+    extname: '.hbs',
+}));
+app.set('view engine', 'hbs')
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
 // Middlewares (ni idea de qué es esto)
 app.use(myconn(mysql, dbOptions, 'single'))
 app.use(express.json())
 app.use(cors())
 
 // Rutas ***********************************************************************
-app.get('/', (req, res)=> {
-    res.send('Bienvenido a mi proyecto')
-})
+// app.get('/', (req, res)=> {
+//     res.send('Bienvenido a mi proyecto')
+// })
 
 app.use('/api', routes)
 
@@ -33,9 +48,19 @@ app.use('/api', routes)
 // Soporta hot-reloading, por lo que los cambios se verán en tiempo de ejecución
 // cmd: npm run start
 // mysql shell: \c root@localhost:3306
+
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
+
 app.listen(app.get('port'), ()=> {
     console.log('Servidor corriendo en el puerto: ', app.get('port'))
 }) 
 
-// https://www.youtube.com/watch?v=fW-4toNg3jw&list=LL&index=4
-// Minuto: 
+app.use('/', loginRutas);
+
+app.get('/', (req, res) => {
+    res.render('home')
+})
