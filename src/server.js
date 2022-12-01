@@ -62,5 +62,12 @@ app.listen(app.get('port'), ()=> {
 app.use('/', loginRutas);
 
 app.get('/', (req, res) => {
-    res.render('home')
+    if(req.session.loggedin == true) {
+        // res.render('login/registrar');
+        res.render('home', { name: req.session.name });
+    } else {
+        // res.redirect('/');
+        res.redirect('/login');
+    }
+    // res.render('home')
 })
