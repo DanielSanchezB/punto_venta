@@ -4,6 +4,8 @@ const myconn = require('express-myconnection')
 const cors = require('cors')
 
 const routes = require('./routes') // Archivo local: routes.js
+const routes_po = require('./routes/productos_orden.routes') // Archivo local: routes.js
+const routes_usuarios = require('./routes/usuario.routes') // Archivo local: routes.js
 
 require('dotenv').config()
 
@@ -28,6 +30,8 @@ app.get('/', (req, res)=> {
 })
 
 app.use('/api', routes)
+app.use('/resumen', routes_po)
+app.use('/usuarios', routes_usuarios)
 
 // Correr el servidor **********************************************************
 // Soporta hot-reloading, por lo que los cambios se verán en tiempo de ejecución

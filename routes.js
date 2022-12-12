@@ -49,16 +49,33 @@ routes.put('/:id', (req, res) => {
     })
 })
 
+// routes.get('/clientes/:id/:psw', (req, res) => {
 routes.get('/clientes', (req, res) => {
     req.getConnection((err, conn) => {
         if(err) return res.send(err)
         
         conn.query('SELECT * FROM clientes', (err, rows) => {
+        console.log(req.body)
+        // conn.query('SELECT * FROM clientes WHERE correo = ? AND psw = ?', [req.params.correo, req.params.psw], (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)  
         })
     })
 })
+
+// routes.get('/resumen/:idProdOrden', (req, res) => {
+// // routes.get('/resumen', (req, res) => {
+//     req.getConnection((err, conn) => {
+//         if(err) return res.send(err)
+        
+//         conn.query('SELECT * FROM productos_orden WHERE idOrden = ?', [req.params.idProdOrden], (err, rows) => {
+//         // conn.query('SELECT * FROM productos_orden', (err, rows) => {
+//             if(err) return res.send(err)
+
+//             res.json(rows)  
+//         })
+//     })
+// })
 
 module.exports = routes
